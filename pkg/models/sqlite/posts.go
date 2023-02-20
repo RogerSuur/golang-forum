@@ -10,7 +10,7 @@ import (
 
 // This will insert a new post into the database.
 func (m *DBModel) Insert(PostID, ParentID, UserID, PostTitle, PostContent, PostImage, PostTime string, TagsSelected []string) {
-
+	fmt.Println("Insert post")
 	if len(PostTitle) > 8 {
 		if PostTitle[0:8] == "Re: Re: " {
 			PostTitle = PostTitle[4:]
@@ -35,6 +35,7 @@ func (m *DBModel) Insert(PostID, ParentID, UserID, PostTitle, PostContent, PostI
 
 // This will return created posts.
 func (m *DBModel) Latest(session *models.SessionData, TagsSelected []string) ([]*models.PostData, error) {
+	fmt.Println("Latest posts")
 	var recentPosts []*models.PostData
 	// create query statement
 	categoriesSQL := ``
@@ -102,6 +103,7 @@ func (m *DBModel) Latest(session *models.SessionData, TagsSelected []string) ([]
 }
 
 func (m *DBModel) UserPosts(session *models.SessionData) (userPosts []*models.PostData, err error) {
+	fmt.Println("UserPosts")
 	stmt := `SELECT DISTINCT
 	Posts.*, 
 	Users.UserName,
@@ -149,6 +151,7 @@ func (m *DBModel) UserPosts(session *models.SessionData) (userPosts []*models.Po
 }
 
 func (m *DBModel) UserLikes(session *models.SessionData) (userPosts []*models.PostData, err error) {
+	fmt.Println("User likes")
 	stmt := `SELECT
 	Posts.*, 
 	Users.UserName,
@@ -199,6 +202,7 @@ func (m *DBModel) UserLikes(session *models.SessionData) (userPosts []*models.Po
 }
 
 func (m *DBModel) GetThread(session *models.SessionData, thread string) (threadPosts []*models.PostData, err error) {
+	fmt.Println("Get thread")
 	stmt := `SELECT DISTINCT
 		Posts.*, 
 		Users.UserName,

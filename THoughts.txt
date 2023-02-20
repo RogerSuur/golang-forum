@@ -1,0 +1,11 @@
+With each comment or like, get Post author ID.
+Make a notification post request to that author.
+
+Add a notification droplist to userpage, which shows
+notifications on a droplist and links to those posts.
+
+Notification comes with a table notifications
+Columns: from_user(reactor), to_user(author), type(comment/like)
+
+
+MAKE IT ALL ON WEBSOCKET OR NOT?

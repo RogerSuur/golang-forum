@@ -18,6 +18,7 @@ import (
 )
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("home handler")
 	if r.URL.Path != "/" {
 		app.notFound(w)
 		return
@@ -216,6 +217,8 @@ func (app *application) login(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) newpost(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("newpost handler")
+
 	if !app.database.IsLoggedIn(r) {
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
 	}
@@ -324,6 +327,7 @@ func (app *application) newpost(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) userpage(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("userpage handler")
 	if !app.database.IsLoggedIn(r) {
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
 	}
@@ -394,6 +398,7 @@ func (app *application) userpage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) react(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("react handler")
 	if r.Method == http.MethodPost {
 		if err := r.ParseForm(); err != nil {
 			fmt.Println("Error while handling reactions", r.PostForm)
@@ -414,6 +419,7 @@ func (app *application) react(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) thread(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("thread handler")
 	files := []string{
 		"./ui/html/thread.html", // path relative to the root of the project cateory
 		"./ui/html/posts.html",
