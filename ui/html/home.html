@@ -1,0 +1,61 @@
+{{template "base" .}} {{define "title"}} &#8226; Home{{end}} {{define "body"}}
+<!--main Area-->
+<main id="main">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="box">
+                <p>School Food House</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="second-box">
+                <div class="text">
+                    <h1>It's time to get new delicious and cheap student food recipes</h1>
+                </div>
+            </div>
+        </div>
+        <div class="third-box">
+            <br>
+            <div class="displayPosts d-flex justify-content-center">
+                <h1 class="display-4">Posts</h1>
+            </div>
+            <br>
+            <br>
+
+
+            <form action="/" method="POST">
+                <div class="checkboxes d-flex justify-content-center">
+                    <div class="col me-1">
+                        <input type="checkbox" name="formtags" value="All" role="group" class="btn-check" id="btn-check-all" autocomplete="off">
+                        <label class="btn btn-secondary text-dark" for="btn-check-all">All</label><br>
+                    </div>
+                    <div class="col me-1">
+                        <input type="checkbox" name="formtags" value="Healthy" class="btn-check" id="btn-check-Healthy" autocomplete="off">
+                        <label class="btn btn-secondary text-dark" for="btn-check-Healthy">Healthy</label><br>
+                    </div>
+                    <div class="col me-1">
+                        <input type="checkbox" name="formtags" value="Vegan" class="btn-check" id="btn-check-vegan" autocomplete="off">
+                        <label class="btn btn-secondary text-dark" for="btn-check-vegan">Vegan</label><br>
+                    </div>
+                    <div class="col me-1">
+                        <input type="checkbox" name="formtags" value="Cheap" class="btn-check" id="btn-check-Cheap" autocomplete="off">
+                        <label class="btn btn-secondary text-dark" for="btn-check-Cheap">Cheap</label><br>
+                    </div>
+                    <div class="col me-1">
+                        <input type="checkbox" name="formtags" value="Easy" class="btn-check" id="btn-check-Easy" autocomplete="off">
+                        <label class="btn btn-secondary text-dark" for="btn-check-Easy">Easy</label><br>
+                    </div>
+                </div>
+                <button type="submit" class="d-flex mx-auto btn-sm btn-outline-secondary text-dark">Filter Posts</button>
+            </form>
+
+            {{template "postDisplay" .}}
+
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+</main>
+
+{{end}}

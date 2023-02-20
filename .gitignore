@@ -1,0 +1,5 @@
+# Exclude database file, for now
+*.db
+
+# Exclude images folder
+ui/static/forum-images/

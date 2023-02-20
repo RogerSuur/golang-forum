@@ -1,0 +1,15 @@
+{{template "base" .}}
+{{define "title"}}Post #{{.ID}}{{end}}
+{{define "body"}}
+<div class='Post'>
+    <div class='metadata'>
+    <strong>{{.PostTitle}}</strong>
+    <span>{{.UserName}}</span>
+    <span>#{{.ID}}</span>
+    </div>
+    <pre><code>{{.PostContent}}</code></pre>
+    <div class='metadata'>
+        <!-- <time> Insert post creation time Created: {{.Created}}</time> -->
+    </div>
+</div>
+{{end}}

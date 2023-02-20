@@ -1,0 +1,71 @@
+{{define "postDisplay"}}
+{{$Thread := .IsThread}}
+{{range $PostIndex, $item := .PostsData}} 
+            <br> {{ $liked := .PostLiked.Int32 }}
+            <div class="posts d-flex justify-content-center">
+                <div class="post">
+                    <div class="postHeader" ID="{{.PostID}}">
+                        <div class="postUser">
+                            {{.UserName}}
+                        </div>
+                        <div class="postTime">
+                            {{.PostTime.Format "Jan 02, 2006 @ 15:04:05"}}
+                        </div>
+                    </div>
+                    <hr class="postHr">
+                    <div class="postBody">
+                        <h2 class="postTitle">
+                            <a href="/thread?ID={{.ParentID}}"> {{.PostTitle}}</a> {{if eq .Parents.Int32 0}} {{else}} ({{.Parents.Int32}}){{end}}
+                        </h2>
+                        <div class="postContent">
+                            {{.PostContent}}
+                        </div>
+                        <div class="imagepost">
+                            <img src=".{{.PostImage}}" class= "imagepost" alt="">
+                        </div>
+                    </div>
+
+                    {{if not $.SessionData.UserID}}
+                    <hr class="postHr">
+                    <a href="/login">
+                        <div class="postActions">
+                            <button class="postAction" id="likeBtn">{{.Positive.Int32}}&nbsp <i
+                                    class="iconoir-thumbs-up"></i> </button>
+                            <button class="postAction" id="dislikeBtn"> {{.Negative.Int32}} &nbsp<i
+                                    class="iconoir-thumbs-down"></i> </button>
+                    </a>
+                    </div>
+                    {{end}} {{if $.SessionData.UserID}}
+                    <hr class="postHr">
+                    <div class="postActions">
+                        <form action="react" method="POST">
+                            <input type="hidden" name="PostID" value="{{.PostID}}">
+                            <input type="hidden" name="LikeStatus" value="1">
+                            <input type="hidden" name="page" value="{{if $Thread}}.{{index $.ThreadData $PostIndex}}{{else}}/{{end}}">
+                            <button class="postAction {{if eq $liked 1}}active{{else}}{{end}}" id="likeBtn">                            
+                                {{.Positive.Int32}}
+                                &nbsp
+                                <i class="iconoir-thumbs-up"></i>
+                            </button>
+                        </form>
+
+                        <form action="react" method="POST">
+                            <input type="hidden" name="PostID" value="{{.PostID}}">
+                            <input type="hidden" name="LikeStatus" value="-1">
+                            <input type="hidden" name="page" value="{{if $Thread}}.{{index $.ThreadData $PostIndex}}{{else}}/{{end}}">
+                            <button class="postAction {{if eq $liked -1}}active{{else}}{{end}}" id="dislikeBtn">
+                                {{.Negative.Int32}}
+                                &nbsp
+                                <i class="iconoir-thumbs-down"></i>
+                            </button>
+                        </form>
+                        <button class="postAction" id="commentBtn">
+                            
+                        <a href=".{{index $.ThreadData $PostIndex}}#comment" class="comment-link"><i class="iconoir-message-text"></i></a>
+                    </button>
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+            {{end}} 
+        {{end}} 

@@ -1,0 +1,42 @@
+{{template "base" .}} {{define "title"}} &#8226; User Page{{end}} {{define "body"}}
+
+<!--main Area-->
+<main id="main">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="box-new-post top">
+            </div>
+        </div>
+        <div class="displayPosts d-flex justify-content-center">
+            <h1 class="display-6">Choose user content category:</h1>
+        </div>
+
+        <form action="/userpage" method="POST">
+            <div class="checkboxes d-flex justify-content-center">
+                <div class="col me-1">
+                    <input type="radio" name="userpage" value="Posts" role="group" class="btn-check" id="btn-check-posts">
+                    <label class="btn btn-secondary text-dark" for="btn-check-posts">My posts</label><br>
+                </div>
+                <div class="col me-1">
+                    <input type="radio" name="userpage" value="Reactions" class="btn-check" id="btn-check-likes">
+                    <label class="btn btn-secondary text-dark" for="btn-check-likes">My reactions</label><br>
+                </div>
+            </div>
+            <button type="submit" class="d-flex mx-auto btn-sm btn-outline-secondary text-dark">Load Posts</button>
+            <br>
+
+        </form>
+        {{if .UserPageData}}
+        <div class="displayPosts d-flex justify-content-center">
+            <h1 class="display-4">{{.UserPageData}} by {{.SessionData.UserName}}</h1>
+        </div>
+
+        {{template "postDisplay" .}}
+
+        {{end}}
+
+    </div>
+
+</main>
+
+{{end}}

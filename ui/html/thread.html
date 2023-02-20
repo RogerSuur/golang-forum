@@ -1,0 +1,45 @@
+{{template "base" .}} {{define "title"}} &#8226; Recipe{{end}} {{define "body"}}
+
+<!--main Area-->
+<main id="main">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="box-new-post top">
+            </div>
+        </div>
+
+        {{template "postDisplay" .}}
+        {{if $.SessionData.UserID}}
+            <div class="container-fluid text-center" ID="comment">
+                <div class="row ">
+                    <form action="newpost" enctype="multipart/form-data" method="POST">
+                        <div class="w-50 d-inline-block">
+                            <div class="makePost mb-3">
+                                <label for="inputPostTitle" class="form-label">Title:</label>
+                                <input type="text" name="inputPostTitle" class="form-control form-control-lg"
+                                    id="exampleInputTitle1" required aria-describedby="TitleHelp"
+                                    value="Re: {{(index .PostsData 0).PostTitle}}">
+                            </div>
+                            <div class="makePost mb-3">
+                                <!-- <label for="exampleInputText1" class="form-label">Text</label> -->
+                                <textarea name="inputPostContent" class="form-control text-left" id="inputPostContent"
+                                    required placeholder="Type your comment here" style="height: 300px"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <div class="textwhite text-dark">
+                                    Max size 20 mb .jpg .png and .gif files
+                                </div>
+                                <label for="inputImage" class="form-label"></label>
+                                <input class="form-control" type="file" name="inputImage" id="inputImage">
+                            </div>
+
+                            <input type="hidden" name="ParentID" value="{{(index .PostsData 0).ParentID}}">
+                            <button type="submit" class="btn btn-primary">Post Comment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {{end}}
+</main>
+
+{{end}}

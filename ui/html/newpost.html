@@ -1,0 +1,57 @@
+{{template "base" .}} {{define "title"}} &#8226; New Post{{end}} {{define "body"}}
+
+<!--main Area-->
+<main id="main">
+    <div class="container-fluid text-center">
+        <div class="row ">
+            <div class="box-new-post top">
+                <form action="newpost" enctype="multipart/form-data" method="POST">
+                    <div class="login w-50 d-inline-block">
+                        <div class="makePost mb-3">
+                            <label for="inputPostTitle" class="form-label">Title:</label>
+                            <input type="text" name="inputPostTitle" class="form-control form-control-lg"
+                                id="exampleInputTitle1" required aria-describedby="TitleHelp"
+                                placeholder="Title of the recipe">
+                        </div>
+                        <div class="makePost mb-3">
+                            <!-- <label for="exampleInputText1" class="form-label">Text</label> -->
+                            <textarea name="inputPostContent" class="form-control text-left" id="inputPostContent"
+                                required placeholder="Type your recipe here" style="height: 300px"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <div class="textwhite text-light">
+                                Max size 20 mb .jpg .png and .gif files 
+                            </div> 
+                            <label for="inputImage" class="form-label"></label>
+                            <input class="form-control" type="file" name="inputImage" id="inputImage">
+                        </div>
+                        <div class="row mb-3 g-3 d-flex justify-content-center">
+                            <div class="col-md-4">
+                                <label for="validationTagsThreshold" class="form-label">Select tags</label>
+                                <select class="form-select" id="validationTagsThreshold" name="tagsClearThreshold[]"
+                                    multiple data-allow-clear="true" data-suggestions-threshold="0">
+                                    <option selected disabled hidden value="">Choose a tag...</option>
+                                    <option value="Healthy" name="tagOptions" value="Healthy">Healthy</option>
+                                    <option value="Vegan" name="tagOptions" value="Vegan">Vegan</option>
+                                    <option value="Cheap" name="tagOptions" value="Cheap">Cheap</option>
+                                    <option value="Easy" name="tagOptions" value="Easy">Easy</option>
+                                </select>
+                                <div class="invalid-feedback">Please select a valid tag.</div>
+                            </div>
+                        </div>
+                        <br>
+
+                        <br>
+                        <br>
+                        <input type="hidden" name="ParentID" value="0">
+                        <button type="submit" class="btn btn-primary">Post</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+</main>
+
+{{end}}
