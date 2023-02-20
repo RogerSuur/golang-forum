@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"flag"
 	"fmt"
-	"groupforum/pkg/models/sqlite"
+	"forum-advanced-features/pkg/models/sqlite"
 	"log"
 	"net/http"
 	"os"

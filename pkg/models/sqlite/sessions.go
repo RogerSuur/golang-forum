@@ -2,7 +2,7 @@ package sqlite
 
 import (
 	"fmt"
-	"groupforum/pkg/models"
+	"forum-advanced-features/pkg/models"
 	"log"
 	"net/http"
 

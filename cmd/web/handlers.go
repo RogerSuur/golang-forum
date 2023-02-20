@@ -2,8 +2,8 @@ package web
 
 import (
 	"fmt"
-	"groupforum/pkg/models"
-	"groupforum/pkg/models/sqlite"
+	"forum-advanced-features/pkg/models"
+	"forum-advanced-features/pkg/models/sqlite"
 	"html/template"
 	"io/ioutil"
 	"log"

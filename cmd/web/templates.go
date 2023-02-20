@@ -1,6 +1,6 @@
 package web
 
-import "groupforum/pkg/models"
+import "forum-advanced-features/pkg/models"
 
 type templateData struct {
 	PostsData    []*models.PostData

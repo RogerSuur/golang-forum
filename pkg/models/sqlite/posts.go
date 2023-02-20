@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"groupforum/pkg/models"
+	"forum-advanced-features/pkg/models"
 )
 
 // This will insert a new post into the database.

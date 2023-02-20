@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"groupforum/pkg/models"
+	"forum-advanced-features/pkg/models"
 
 	"golang.org/x/crypto/bcrypt"
 )
