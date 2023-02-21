@@ -11,3 +11,5 @@
 
 -- DELETE FROM Notifications WHERE Type= "comment";
 -- DELETE FROM Posts WHERE Posts.UserID = "a568b82f-f987-4c1f-8027-73eb0ed9380b";
+
+-- SELECT UserID FROM Posts WHERE Posts.ParentID= "27a1be9f-51f1-4c81-ad76-087254518459" LIMIT 1;

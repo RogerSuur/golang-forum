@@ -272,8 +272,11 @@ func (app *application) newpost(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+		var IsComment = true
+		fmt.Println("parentPost:", parentPost)
 		if parentPost == "0" {
 			parentPost = PostID
+			IsComment = false
 		} else {
 			redirectPath = "./thread?ID=" + parentPost
 		}
@@ -326,8 +329,11 @@ func (app *application) newpost(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("parentPost:", parentPost)
 		//TODO
 		//WRITE A QUERY TO DETERMINE IF IT IS A COMMENT OR A POST
-		if app.database.IsComment(parentPost) {
-			app.sendNotification(parentPost)
+		// if app.database.IsComment(parentPost) {
+		// 	app.sendNotification(parentPost)
+		// }
+		if IsComment {
+			app.sendNotification(parentPost, UserID)
 		}
 		//TO DO
 		//get the original post UserID from a query of the posts ParentID
@@ -337,13 +343,14 @@ func (app *application) newpost(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (app *application) sendNotification(parentPost string) {
+func (app *application) sendNotification(parentPost string, commentAuthor string) {
 
-	UserID := app.database.FindPostAuthor(parentPost)
+	//See userid mille leian on vale? aga miks...
+	// UserID := app.database.FindPostAuthor(parentPost)
 
-	fmt.Println("UserID:", UserID)
+	fmt.Println("commentAuthor:", commentAuthor)
 
-	app.database.AddNotification(parentPost, UserID, 0)
+	app.database.AddNotification(parentPost, commentAuthor, 0)
 }
 
 func (app *application) userpage(w http.ResponseWriter, r *http.Request) {

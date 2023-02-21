@@ -267,5 +267,5 @@ func (m *DBModel) IsComment(PostParent string) bool {
 
 	fmt.Println("IsComment = true")
 
-	return true
+	return postAuthorID != ""
 }
