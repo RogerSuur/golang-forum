@@ -374,6 +374,7 @@ func (app *application) userpage(w http.ResponseWriter, r *http.Request) {
 	session := app.database.GetUser(w, r)
 	data := &templateData{}
 	var posts []*models.PostData
+	var notifications []*models.NotificationsData
 
 	switch r.Method {
 	case http.MethodGet:
@@ -391,6 +392,8 @@ func (app *application) userpage(w http.ResponseWriter, r *http.Request) {
 			posts, err = app.database.UserPosts(session)
 		case "Reactions":
 			posts, err = app.database.UserLikes(session)
+		case "Notifications":
+			notifications, err = app.database.UserNotifications(session)
 
 		}
 
@@ -410,11 +413,12 @@ func (app *application) userpage(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		data = &templateData{
-			PostsData:    posts,
-			SessionData:  session,
-			UserPageData: userPosts,
-			ThreadData:   threadPostID,
-			IsThread:     true,
+			PostsData:        posts,
+			SessionData:      session,
+			UserPageData:     userPosts,
+			ThreadData:       threadPostID,
+			NotificationData: notifications,
+			IsThread:         true,
 		}
 	}
 

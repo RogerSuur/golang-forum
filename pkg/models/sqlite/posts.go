@@ -201,6 +201,57 @@ func (m *DBModel) UserLikes(session *models.SessionData) (userPosts []*models.Po
 	return userPosts, nil
 }
 
+func (m *DBModel) UserNotifications(session *models.SessionData) (UserNotifications []*models.NotificationData, err error) {
+	fmt.Println("User likes")
+	stmt := `SELECT
+	Posts.*, 
+	Users.UserName,
+		(SELECT Likes.LikeValue
+		FROM Likes
+		WHERE Likes.UserID = ? AND Posts.PostID = Likes.PostID)
+	LikeValue,
+		(Select SUM(Likes.LikeValue)
+		From Likes
+		WHERE Posts.PostID = Likes.PostID AND Likes.LikeValue > 0)
+	Positive,
+		(Select SUM(Likes.LikeValue)
+		From Likes
+		WHERE Posts.PostID = Likes.PostID AND Likes.LikeValue < 0)
+	Negative,
+		(COUNT(Posts.PostID) OVER (PARTITION BY Posts.ParentID))-1 AS Parents
+	FROM Posts
+	LEFT JOIN Users USING(UserID)
+	WHERE Posts.PostID IN (
+		SELECT Likes.PostID
+		FROM Likes
+		WHERE Likes.UserID = ?)
+	GROUP BY Posts.PostID
+	ORDER BY Posts.PostTime DESC`
+
+	rows, err := m.DB.Query(stmt, session.UserID, session.UserID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		s := &models.PostData{}
+
+		err = rows.Scan(&s.PostID, &s.ParentID, &s.UserID, &s.PostTitle, &s.PostContent, &s.PostImage, &s.PostTime, &s.UserName, &s.PostLiked, &s.Positive, &s.Negative, &s.Parents)
+		if err != nil {
+			return nil, err
+		}
+
+		userPosts = append(userPosts, s)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return userPosts, nil
+}
+
 func (m *DBModel) GetThread(session *models.SessionData, thread string) (threadPosts []*models.PostData, err error) {
 	fmt.Println("Get thread")
 	stmt := `SELECT DISTINCT
