@@ -16,9 +16,9 @@ func (m *DBModel) AddUser(UserID, UserName, Email string, PwdHash []byte, JoinTi
 	row.Scan(&user.UserID, &user.UserName, &user.Email, &user.PwdHash, &user.JoinTime)
 
 	if user.UserName == UserName {
-		return fmt.Errorf("User with same name already exists")
+		return fmt.Errorf("user with same name already exists")
 	} else if user.Email == Email {
-		return fmt.Errorf("User with same email already exists")
+		return fmt.Errorf("user with same email already exists")
 	}
 
 	stmt := `INSERT INTO Users (UserID, UserName, Email, PwdHash, JoinTime)
@@ -39,12 +39,23 @@ func (m *DBModel) Login(UserName, Pwd string) (*models.UserData, error) {
 	user := &models.UserData{}
 
 	if err := row.Scan(&user.UserID, &user.UserName, &user.Email, &user.PwdHash, &user.JoinTime); err != nil {
-		return nil, fmt.Errorf("User not found")
+		return nil, fmt.Errorf("user not found")
 	}
 
 	if err := bcrypt.CompareHashAndPassword(user.PwdHash, []byte(Pwd)); err != nil {
-		return nil, fmt.Errorf("Incorrect password")
+		return nil, fmt.Errorf("incorrect password")
 	}
 
 	return user, nil
+}
+
+func (m *DBModel) FindPostAuthor(PostParent string) string {
+	var postAuthorID string
+	findPostAuthor := m.DB.QueryRow(`SELECT UserID FROM Posts WHERE Posts.ParentID= ?`, PostParent)
+	err := findPostAuthor.Scan(&postAuthorID)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println("PostAuthorID:", postAuthorID)
+	return postAuthorID
 }

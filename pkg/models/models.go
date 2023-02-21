@@ -23,6 +23,9 @@ type PostData struct {
 	Parents     sql.NullInt32
 }
 
+type NotificationsData struct {
+}
+
 type UserData struct {
 	UserID   string
 	UserName string

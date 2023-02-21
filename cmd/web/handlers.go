@@ -322,8 +322,28 @@ func (app *application) newpost(w http.ResponseWriter, r *http.Request) {
 
 		// Redirect the user to the relevant page for the post.
 		app.database.Insert(PostID, parentPost, UserID, PostTitle, PostContent, PostImage, creationTime, TagsSelected)
+
+		fmt.Println("parentPost:", parentPost)
+		//TODO
+		//WRITE A QUERY TO DETERMINE IF IT IS A COMMENT OR A POST
+		if app.database.IsComment(parentPost) {
+			app.sendNotification(parentPost)
+		}
+		//TO DO
+		//get the original post UserID from a query of the posts ParentID
+		//app.database.AddNotification(PostID, UserID, 0)
+
 		http.Redirect(w, r, redirectPath, http.StatusFound)
 	}
+}
+
+func (app *application) sendNotification(parentPost string) {
+
+	UserID := app.database.FindPostAuthor(parentPost)
+
+	fmt.Println("UserID:", UserID)
+
+	app.database.AddNotification(parentPost, UserID, 0)
 }
 
 func (app *application) userpage(w http.ResponseWriter, r *http.Request) {
@@ -411,7 +431,10 @@ func (app *application) react(w http.ResponseWriter, r *http.Request) {
 		returnPage := r.FormValue("page")
 		session := app.database.GetUser(w, r)
 
+		fmt.Println("session.UserId", session.UserID)
+
 		app.database.ProcessReaction(reactionPostID, session.UserID, reactionLike)
+		app.database.AddNotification(reactionPostID, session.UserID, reactionLike)
 
 		http.Redirect(w, r, returnPage+"#"+reactionPostID, http.StatusSeeOther)
 		return

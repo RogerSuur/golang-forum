@@ -8,4 +8,22 @@ Notification comes with a table notifications
 Columns: from_user(reactor), to_user(author), type(comment/like)
 
 
-MAKE IT ALL ON WEBSOCKET OR NOT?
+MAKE IT ALL ON WEBSOCKET OR NOT? NOT
+
+1) Notifications table
+2) statements add, remove, change
+
+
+
+3) handler to insert notifications db on post like/comment
+
+NEED TO SEPARATE COMMENT FROM POSTS
+
+DOES IT NEED AUTOINCREMENTING ID?
+
+
+4) displaying notifications 
+
+Create datatype for notifications
+Fill NotificationsData struct fields
+Create place in html

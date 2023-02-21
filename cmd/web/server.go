@@ -113,12 +113,23 @@ func createTable(db *sql.DB) {
 		FOREIGN KEY("PostID") REFERENCES "Posts"("PostID")		
 	);` // sql Statement for create table
 
+	notificationsTableSQL := `CREATE TABLE IF NOT EXISTS "Notifications" (
+		"UserID"	VARCHAR(36),
+		"ReactorID"	VARCHAR(36),
+		"PostID"	VARCHAR(36),
+		"Type"	VARCHAR(36),
+		FOREIGN KEY("UserID") REFERENCES "Users"("UserID"),
+		FOREIGN KEY("ReactorID") REFERENCES "Users"("UserID"),
+		FOREIGN KEY("PostID") REFERENCES "Posts"("PostID")		
+	);` // sql Statement for create table
+
 	createTablesSQL := map[string]string{
 		"Users":           usersTableSQL,
 		"Sessions":        sessionTableSQL,
 		"Posts":           postsTableSQL,
 		"Post Categories": postCatTableSQL,
 		"Post Likes":      likesTableSQL,
+		"Notifications":   notificationsTableSQL,
 	}
 
 	for key, value := range createTablesSQL {

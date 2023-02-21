@@ -251,3 +251,21 @@ func (m *DBModel) GetThread(session *models.SessionData, thread string) (threadP
 
 	return threadPosts, nil
 }
+
+func (m *DBModel) IsComment(PostParent string) bool {
+
+	var postAuthorID string
+	stmt := m.DB.QueryRow(`
+	 SELECT UserID FROM Posts WHERE Posts.ParentID = ? AND Posts.PostID = ?`, PostParent, PostParent)
+	err := stmt.Scan(&postAuthorID)
+	if err != nil {
+		fmt.Println("err")
+		fmt.Println(err)
+	}
+
+	fmt.Println("PostAuthorID:", postAuthorID)
+
+	fmt.Println("IsComment = true")
+
+	return true
+}
