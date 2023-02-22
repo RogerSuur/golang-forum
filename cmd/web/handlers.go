@@ -363,6 +363,7 @@ func (app *application) userpage(w http.ResponseWriter, r *http.Request) {
 		"./ui/html/userpage.html", // path relative to the root of the project cateory
 		"./ui/html/posts.html",
 		"./ui/html/base.layout.html",
+		"./ui/html/notifications.html",
 	}
 
 	ts, err := template.ParseFiles(files...)
@@ -397,6 +398,7 @@ func (app *application) userpage(w http.ResponseWriter, r *http.Request) {
 
 		}
 
+		fmt.Println("handlers userPosts,", userPosts)
 		var threadPostID []string
 
 		for _, element := range posts {

@@ -1,0 +1,43 @@
+
+{{define "notificationsDisplay"}}
+
+    {{range $index, $notification := .NotificationData}}
+    <div class="posts d-flex justify-content-center">
+        {{$notificationVerb := ""}}
+{{if eq $notification.Type "like"}}
+    {{$notificationVerb = "reacted"}}
+{{else if eq $notification.Type "comment"}}
+    {{$notificationVerb = "commented"}}
+{{end}}
+        <div class="post">
+         <div class="postHeader">
+                        <div class="postUser">
+                            
+                        </div>
+                        
+                    </div>
+                    <hr class="postHr">
+                    <div class="postBody">
+                       
+                        <div class="postContent">
+                            {{$notification.ReactorID}}
+                             {{$notificationVerb}} on your post 
+                             <a href="/thread?ID={{.ParentID}}"> {{.PostTitle}}</a> {{if eq .Parents.Int32 0}} {{else}} ({{.Parents.Int32}}){{end}}
+                        </div>
+                    </div>
+
+                    <!-- <h2 class="postTitle">
+                        <a href="/thread?ID={{.ParentID}}"> {{.PostTitle}}</a> {{if eq .Parents.Int32 0}} {{else}} ({{.Parents.Int32}}){{end}}
+                    </h2> -->
+                    
+                    <hr class="postHr">
+                    <div class="postActions">
+                        
+                        
+                    </div>
+                    
+</div>
+</div>
+    {{end}}
+
+{{end}}

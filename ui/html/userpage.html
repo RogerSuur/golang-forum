@@ -30,7 +30,11 @@
             <br>
 
         </form>
-        {{if .UserPageData}}
+        {{if eq .UserPageData "Notifications"}} 
+
+        {{template "notificationsDisplay" . }}
+
+        {{else if .UserPageData}} 
         <div class="displayPosts d-flex justify-content-center">
             <h1 class="display-4">{{.UserPageData}} by {{.SessionData.UserName}}</h1>
         </div>

@@ -201,55 +201,38 @@ func (m *DBModel) UserLikes(session *models.SessionData) (userPosts []*models.Po
 	return userPosts, nil
 }
 
-func (m *DBModel) UserNotifications(session *models.SessionData) (UserNotifications []*models.NotificationData, err error) {
+//Get all notifications to that user
+func (m *DBModel) UserNotifications(session *models.SessionData) (notifications []*models.NotificationsData, err error) {
 	fmt.Println("User likes")
-	stmt := `SELECT
-	Posts.*, 
-	Users.UserName,
-		(SELECT Likes.LikeValue
-		FROM Likes
-		WHERE Likes.UserID = ? AND Posts.PostID = Likes.PostID)
-	LikeValue,
-		(Select SUM(Likes.LikeValue)
-		From Likes
-		WHERE Posts.PostID = Likes.PostID AND Likes.LikeValue > 0)
-	Positive,
-		(Select SUM(Likes.LikeValue)
-		From Likes
-		WHERE Posts.PostID = Likes.PostID AND Likes.LikeValue < 0)
-	Negative,
-		(COUNT(Posts.PostID) OVER (PARTITION BY Posts.ParentID))-1 AS Parents
-	FROM Posts
-	LEFT JOIN Users USING(UserID)
-	WHERE Posts.PostID IN (
-		SELECT Likes.PostID
-		FROM Likes
-		WHERE Likes.UserID = ?)
-	GROUP BY Posts.PostID
-	ORDER BY Posts.PostTime DESC`
+	stmt := `
+	SELECT Notifications.UserID, Users.UserName, Notifications.PostID,Notifications.Type, Posts.ParentID, Posts.PostTitle
+FROM Notifications 
+LEFT JOIN Users ON Notifications.ReactorID = Users.UserID 
+LEFT JOIN Posts ON Notifications.PostID = Posts.PostID
+WHERE Notifications.UserID = ?`
 
-	rows, err := m.DB.Query(stmt, session.UserID, session.UserID)
+	rows, err := m.DB.Query(stmt, session.UserID)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
 	for rows.Next() {
-		s := &models.PostData{}
+		s := &models.NotificationsData{}
 
-		err = rows.Scan(&s.PostID, &s.ParentID, &s.UserID, &s.PostTitle, &s.PostContent, &s.PostImage, &s.PostTime, &s.UserName, &s.PostLiked, &s.Positive, &s.Negative, &s.Parents)
+		err = rows.Scan(&s.UserID, &s.ReactorID, &s.PostID, &s.Type, &s.ParentID, &s.PostTitle)
 		if err != nil {
 			return nil, err
 		}
 
-		userPosts = append(userPosts, s)
+		notifications = append(notifications, s)
 	}
 
 	if err = rows.Err(); err != nil {
 		return nil, err
 	}
 
-	return userPosts, nil
+	return notifications, nil
 }
 
 func (m *DBModel) GetThread(session *models.SessionData, thread string) (threadPosts []*models.PostData, err error) {
