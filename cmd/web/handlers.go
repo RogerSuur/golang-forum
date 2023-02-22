@@ -394,7 +394,7 @@ func (app *application) userpage(w http.ResponseWriter, r *http.Request) {
 		case "Reactions":
 			posts, err = app.database.UserLikes(session)
 		case "Notifications":
-			notifications, err = app.database.UserNotifications(session)
+			notifications, err = app.database.GetUserNotifications(session)
 
 		}
 
@@ -436,7 +436,7 @@ func (app *application) react(w http.ResponseWriter, r *http.Request) {
 		if err := r.ParseForm(); err != nil {
 			fmt.Println("Error while handling reactions", r.PostForm)
 		}
-		reactionPostID := r.FormValue("PostID")
+		reactionPostID := r.FormValue("ID")
 		reactionLike, err := strconv.ParseInt(r.FormValue("LikeStatus"), 10, 64)
 		if err != nil {
 			fmt.Println(err)
@@ -496,5 +496,27 @@ func (app *application) thread(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			app.serveError(w, err)
 		}
+	}
+}
+
+func (app *application) deleteContent(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("delete content handler")
+	if r.Method == http.MethodPost {
+		if err := r.ParseForm(); err != nil {
+			fmt.Println("Error while handling reactions", r.PostForm)
+		}
+		notificationID := r.FormValue("ID")
+
+		//returnPage := r.FormValue("page")
+		session := app.database.GetUser(w, r)
+
+		fmt.Println("session.UserId", session.UserID)
+
+		fmt.Println("notificationID", notificationID)
+
+		app.database.DeleteNotification(notificationID)
+
+		http.Redirect(w, r, "/userpage?userpage=Notifications", http.StatusSeeOther)
+		return
 	}
 }

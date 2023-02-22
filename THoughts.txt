@@ -1,10 +1,38 @@
 
+Redirect at deletenotification to the correct page at userpage notifications
+
+STYLE mark as read btn (maybe even as a delete btn)
+
+Make EDIT post btn + handler
++ that takes you to the new post form but this time fills it out for you.
+
+
+
+
+
+
+
+
+
+Adding btn to each notification to delete them
+
+btn takes us to handler
+handler takes that notfication and deletes it from database
+then it sends refreshes the page for client
+(a ka redirects them)
+
+For deleteing notifications, notificationID would help
+
+
+
+Maybe create an universal handler for deleting both posts and notifications?
+
+
 Displaying notifications 
 
 Create datatype for notifications
 Fill NotificationsData struct fields
 Create place in html
-
 
 
 

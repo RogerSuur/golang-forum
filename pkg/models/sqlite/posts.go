@@ -201,40 +201,6 @@ func (m *DBModel) UserLikes(session *models.SessionData) (userPosts []*models.Po
 	return userPosts, nil
 }
 
-//Get all notifications to that user
-func (m *DBModel) UserNotifications(session *models.SessionData) (notifications []*models.NotificationsData, err error) {
-	fmt.Println("User likes")
-	stmt := `
-	SELECT Notifications.UserID, Users.UserName, Notifications.PostID,Notifications.Type, Posts.ParentID, Posts.PostTitle
-FROM Notifications 
-LEFT JOIN Users ON Notifications.ReactorID = Users.UserID 
-LEFT JOIN Posts ON Notifications.PostID = Posts.PostID
-WHERE Notifications.UserID = ?`
-
-	rows, err := m.DB.Query(stmt, session.UserID)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	for rows.Next() {
-		s := &models.NotificationsData{}
-
-		err = rows.Scan(&s.UserID, &s.ReactorID, &s.PostID, &s.Type, &s.ParentID, &s.PostTitle)
-		if err != nil {
-			return nil, err
-		}
-
-		notifications = append(notifications, s)
-	}
-
-	if err = rows.Err(); err != nil {
-		return nil, err
-	}
-
-	return notifications, nil
-}
-
 func (m *DBModel) GetThread(session *models.SessionData, thread string) (threadPosts []*models.PostData, err error) {
 	fmt.Println("Get thread")
 	stmt := `SELECT DISTINCT

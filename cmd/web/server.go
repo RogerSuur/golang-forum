@@ -114,6 +114,7 @@ func createTable(db *sql.DB) {
 	);` // sql Statement for create table
 
 	notificationsTableSQL := `CREATE TABLE IF NOT EXISTS "Notifications" (
+		"NotificationID" VARCHAR(36),
 		"UserID"	VARCHAR(36),
 		"ReactorID"	VARCHAR(36),
 		"PostID"	VARCHAR(36),

@@ -39,7 +39,7 @@
                     <hr class="postHr">
                     <div class="postActions">
                         <form action="react" method="POST">
-                            <input type="hidden" name="PostID" value="{{.PostID}}">
+                            <input type="hidden" name="ID" value="{{.PostID}}">
                             <input type="hidden" name="LikeStatus" value="1">
                             <input type="hidden" name="page" value="{{if $Thread}}.{{index $.ThreadData $PostIndex}}{{else}}/{{end}}">
                             <button class="postAction {{if eq $liked 1}}active{{else}}{{end}}" id="likeBtn">                            
@@ -50,7 +50,7 @@
                         </form>
 
                         <form action="react" method="POST">
-                            <input type="hidden" name="PostID" value="{{.PostID}}">
+                            <input type="hidden" name="ID" value="{{.PostID}}">
                             <input type="hidden" name="LikeStatus" value="-1">
                             <input type="hidden" name="page" value="{{if $Thread}}.{{index $.ThreadData $PostIndex}}{{else}}/{{end}}">
                             <button class="postAction {{if eq $liked -1}}active{{else}}{{end}}" id="dislikeBtn">
