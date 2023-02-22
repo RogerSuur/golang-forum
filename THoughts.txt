@@ -1,7 +1,8 @@
 
-Redirect at deletenotification to the correct page at userpage notifications
 
-STYLE mark as read btn (maybe even as a delete btn)
+Check if the Post.PostAuthorID == SessionData.
+Then show Edit btn
+
 
 Make EDIT post btn + handler
 + that takes you to the new post form but this time fills it out for you.
@@ -10,6 +11,14 @@ Make EDIT post btn + handler
 
 
 
+
+
+STYLE mark as read btn (maybe even as a delete btn)
+
+
+
+
+CANCEL: Redirect at deletenotification to the correct page at userpage notifications(IMPOSSIBLE)
 
 
 

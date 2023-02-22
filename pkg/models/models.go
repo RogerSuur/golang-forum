@@ -24,14 +24,13 @@ type PostData struct {
 }
 
 type NotificationsData struct {
-	NotificationID string
-	UserID         string
-	ReactorID      string
-	PostID         string
-	Type           string
-	PostTitle      string
-	ParentID       string
-	Parents        sql.NullInt32
+	UserID    string
+	ReactorID string
+	PostID    string
+	Type      string
+	PostTitle string
+	ParentID  string
+	Parents   sql.NullInt32
 }
 
 type UserData struct {

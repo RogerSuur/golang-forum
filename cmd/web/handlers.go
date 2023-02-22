@@ -505,18 +505,15 @@ func (app *application) deleteContent(w http.ResponseWriter, r *http.Request) {
 		if err := r.ParseForm(); err != nil {
 			fmt.Println("Error while handling reactions", r.PostForm)
 		}
-		notificationID := r.FormValue("ID")
 
 		//returnPage := r.FormValue("page")
 		session := app.database.GetUser(w, r)
 
 		fmt.Println("session.UserId", session.UserID)
 
-		fmt.Println("notificationID", notificationID)
+		app.database.DeleteNotification(session.UserID)
 
-		app.database.DeleteNotification(notificationID)
-
-		http.Redirect(w, r, "/userpage?userpage=Notifications", http.StatusSeeOther)
+		http.Redirect(w, r, "/userpage", http.StatusSeeOther)
 		return
 	}
 }

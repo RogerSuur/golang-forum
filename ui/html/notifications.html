@@ -11,8 +11,7 @@
 {{end}}
         <div class="post">
          <div class="postHeader">
-                        <div class="postUser">
-                        </div>
+                     
                         
                     </div>
                     <hr class="postHr">
@@ -23,13 +22,9 @@
                              {{$notificationVerb}} on your post 
                              <a href="/thread?ID={{.ParentID}}"> {{.PostTitle}}</a> {{if eq .Parents.Int32 0}} {{else}} ({{.Parents.Int32}}){{end}}
                         </div>
-
-                        <form action="/delete" method="POST">
-                            <input type="hidden" name="ID" value="{{.NotificationID}}">
-                            <button class="markAsReadButton" type="submit">Mark as Read</button>
-                        </form>
                     </div>
 
+        
                     <!-- <h2 class="postTitle">
                         <a href="/thread?ID={{.ParentID}}"> {{.PostTitle}}</a> {{if eq .Parents.Int32 0}} {{else}} ({{.Parents.Int32}}){{end}}
                     </h2> -->
@@ -43,5 +38,9 @@
 </div>
 </div>
     {{end}}
-
+    <form action="/delete" method="POST">
+        <div class="d-flex justify-content-center">
+            <button class="btn btn-secondary text-dark " type="submit">Mark as Read</button>
+        </div>
+    </form>
 {{end}}
