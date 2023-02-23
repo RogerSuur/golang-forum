@@ -13,6 +13,7 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("/react", app.react)
 	mux.HandleFunc("/thread", app.thread)
 	mux.HandleFunc("/delete", app.deleteContent)
+	mux.HandleFunc("/edit", app.editContent)
 	// Create a file server which serves files out of the "./ui/static" directo
 	// Note that the path given to the http.Dir function is relative to the pro
 	// directory root.

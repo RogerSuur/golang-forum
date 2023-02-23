@@ -1,11 +1,18 @@
 
 
+Make EDIT post btn + handler
++ that takes you to the new post form 
++ take that posts POstID
++ query that post info from backend
+
+
+If PostAuthorID = SesstionData.UserID
+DOnt show likes or dislike btn, nor comment
+
+Position the edit button better
+
 Check if the Post.PostAuthorID == SessionData.
 Then show Edit btn
-
-
-Make EDIT post btn + handler
-+ that takes you to the new post form but this time fills it out for you.
 
 
 

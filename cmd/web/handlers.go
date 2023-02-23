@@ -517,3 +517,55 @@ func (app *application) deleteContent(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func (app *application) editContent(w http.ResponseWriter, r *http.Request) {
+
+	if !app.database.IsLoggedIn(r) {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+	}
+
+	session := app.database.GetUser(w, r)
+
+	data := &templateData{
+		SessionData: session,
+	}
+
+	files := []string{
+		"./ui/html/newpost.html",
+		"./ui/html/base.layout.html",
+	}
+
+	ts, err := template.ParseFiles(files...)
+	if err != nil {
+		app.serveError(w, err)
+		return
+	}
+
+	switch r.Method {
+	case http.MethodGet:
+		fmt.Println("editcontent GET")
+		r.ParseForm()
+		PostID := r.FormValue("PostID")
+		fmt.Println(PostID)
+
+		err = ts.Execute(w, data)
+
+		if err != nil {
+			app.serveError(w, err)
+		}
+
+	case "POST":
+		fmt.Println("methodpost")
+
+		UserID := session.UserID
+		PostID := r.FormValue("PostID")
+
+		fmt.Println("PostID", PostID)
+		fmt.Println("UserID", UserID)
+		//TODO
+		// Finds specific post by ID
+		//Deletes that specific post by ID
+		// Inserts new post
+		//Redirects user back to main page
+	}
+}
