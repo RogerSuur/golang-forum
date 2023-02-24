@@ -14,7 +14,8 @@
 
 -- SELECT UserID FROM Posts WHERE Posts.ParentID= "27a1be9f-51f1-4c81-ad76-087254518459" LIMIT 1;
 
--- SELECT * FROM Notifications WHERE UserID = '7bcc27c3-4a95-4c1a-b72f-1db0c93978f7';
+-- SELECT * FROM Posts WHERE PostID = 'ef8ab2f0-ec54-43fc-b74e-2af94cc7e73d';
+-- UPDATE Posts SET PostTitle = 'new_title', PostContent = 'new_content' WHERE PostID = '22eba585-58a9-4912-bf46-dff2989129cb';
 
 -- SELECT Notifications.UserID, Users.UserName, Notifications.PostID,Notifications.Type, Posts.ParentID, Posts.PostTitle
 -- FROM Notifications 

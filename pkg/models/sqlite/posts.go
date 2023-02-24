@@ -150,6 +150,34 @@ func (m *DBModel) UserPosts(session *models.SessionData) (userPosts []*models.Po
 	return userPosts, nil
 }
 
+func (m *DBModel) FindPostWithID(PostID string) (userPosts []*models.PostData, err error) {
+	fmt.Println("UserPosts")
+	stmt := `SELECT * FROM Posts WHERE PostID = ?;`
+
+	rows, err := m.DB.Query(stmt, PostID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		s := &models.PostData{}
+
+		err = rows.Scan(&s.PostID, &s.ParentID, &s.UserID, &s.PostTitle, &s.PostContent, &s.PostImage, &s.PostTime)
+		if err != nil {
+			return nil, err
+		}
+
+		userPosts = append(userPosts, s)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return userPosts, nil
+}
+
 func (m *DBModel) UserLikes(session *models.SessionData) (userPosts []*models.PostData, err error) {
 	fmt.Println("User likes")
 	stmt := `SELECT
@@ -259,7 +287,6 @@ func (m *DBModel) IsComment(PostParent string) bool {
 	 SELECT UserID FROM Posts WHERE Posts.ParentID = ? AND Posts.PostID = ?`, PostParent, PostParent)
 	err := stmt.Scan(&postAuthorID)
 	if err != nil {
-		fmt.Println("err")
 		fmt.Println(err)
 	}
 
@@ -268,4 +295,24 @@ func (m *DBModel) IsComment(PostParent string) bool {
 	fmt.Println("IsComment = true")
 
 	return postAuthorID != ""
+}
+
+func (m *DBModel) UpdatePost(PostID, PostTitle, PostContent string) {
+
+	stmt, err := m.DB.Prepare(`
+		UPDATE Posts
+		SET PostTitle = ?, PostContent = ?
+		WHERE PostID = ?
+	`)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	defer stmt.Close()
+
+	// Execute the statement with the provided parameters
+	_, err = stmt.Exec(PostTitle, PostContent, PostID)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
 }
