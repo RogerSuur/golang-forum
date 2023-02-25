@@ -22,3 +22,7 @@
 -- LEFT JOIN Users ON Notifications.ReactorID = Users.UserID 
 -- LEFT JOIN Posts ON Notifications.PostID = Posts.PostID
 -- WHERE Notifications.UserID = "7bcc27c3-4a95-4c1a-b72f-1db0c93978f7";
+
+--DELETE FROM Posts WHERE Posts.PostID = d58417a5-d6ec-4cb8-8d6d-4a1383bb284f,
+DELETE FROM PostCatRelations WHERE PostCatRelations.PostID = 'd58417a5-d6ec-4cb8-8d6d-4a1383bb284f';
+DELETE FROM Likes WHERE Likes.PostID = 'd58417a5-d6ec-4cb8-8d6d-4a1383bb284f';
