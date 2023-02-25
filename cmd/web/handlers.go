@@ -252,6 +252,7 @@ func (app *application) newpost(w http.ResponseWriter, r *http.Request) {
 		r.Body = http.MaxBytesReader(w, r.Body, 20<<20+512)
 
 		PostID := uuid.NewV4().String()
+		fmt.Println("creating new PostID ", PostID, "with len", len(PostID))
 		UserID := session.UserID
 		PostTitle := r.FormValue("inputPostTitle")
 		PostContent := r.FormValue("inputPostContent")
@@ -507,6 +508,7 @@ func (app *application) deleteContent(w http.ResponseWriter, r *http.Request) {
 
 		PostID := r.FormValue("PostID")
 		fmt.Println(PostID)
+		fmt.Println("len PostID", len(PostID))
 		if PostID == "" {
 			session := app.database.GetUser(w, r)
 

@@ -319,14 +319,19 @@ func (m *DBModel) UpdatePost(PostID, PostTitle, PostContent string) {
 
 func (m *DBModel) DeletePost(PostID string) {
 
-	stmt := `DELETE FROM Posts WHERE Posts.PostID = ?;
-	DELETE FROM PostCatRelations WHERE PostCatRelations.PostID = ?;
-	DELETE FROM Likes WHERE Likes.PostID = ?;`
-	statement, err := m.DB.Prepare(stmt)
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-	statement.Exec(PostID)
-	fmt.Println("Deleted a post from DB")
+	fmt.Println("Deleting post with id:", PostID, "and len:", len(PostID))
 
+	stmt := `DELETE FROM Posts WHERE Posts.PostID = ? OR Posts.ParentID =?;
+	DELETE FROM PostCatRelations WHERE PostCatRelations.PostID = ?;
+	DELETE FROM Notifications WHERE Notifications.PostID = ?;
+	DELETE FROM Likes WHERE Likes.PostID = ?;`
+	result, err := m.DB.Exec(stmt, PostID, PostID, PostID, PostID, PostID)
+	if err != nil {
+		log.Fatal(err)
+	}
+	// result, err := statement.Exec(PostID, PostID)
+	// if err != nil {
+	// 	log.Fatal(err.Error())
+	// }
+	fmt.Println(result)
 }
