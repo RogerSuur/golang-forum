@@ -329,9 +329,6 @@ func (m *DBModel) DeletePost(PostID string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	// result, err := statement.Exec(PostID, PostID)
-	// if err != nil {
-	// 	log.Fatal(err.Error())
-	// }
+
 	fmt.Println(result)
 }
