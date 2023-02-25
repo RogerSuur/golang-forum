@@ -330,5 +330,6 @@ func (m *DBModel) DeletePost(PostID string) {
 		log.Fatal(err)
 	}
 
+	//maybe now
 	fmt.Println(result)
 }
