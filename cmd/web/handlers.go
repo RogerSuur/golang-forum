@@ -218,8 +218,6 @@ func (app *application) login(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) newpost(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("newpost handler")
-	referer := r.Referer()
-	fmt.Println("referer", referer)
 
 	if !app.database.IsLoggedIn(r) {
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
@@ -328,7 +326,6 @@ func (app *application) newpost(w http.ResponseWriter, r *http.Request) {
 		// Redirect the user to the relevant page for the post.
 		app.database.Insert(PostID, parentPost, UserID, PostTitle, PostContent, PostImage, creationTime, TagsSelected)
 
-		fmt.Println("parentPost:", parentPost)
 		//TODO
 		//WRITE A QUERY TO DETERMINE IF IT IS A COMMENT OR A POST
 		// if app.database.IsComment(parentPost) {
@@ -508,15 +505,22 @@ func (app *application) deleteContent(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("Error while handling reactions", r.PostForm)
 		}
 
-		//returnPage := r.FormValue("page")
-		session := app.database.GetUser(w, r)
+		PostID := r.FormValue("PostID")
+		fmt.Println(PostID)
+		if PostID == "" {
+			session := app.database.GetUser(w, r)
 
-		fmt.Println("session.UserId", session.UserID)
+			fmt.Println("session.UserId", session.UserID)
 
-		app.database.DeleteNotification(session.UserID)
+			app.database.DeleteNotification(session.UserID)
 
-		http.Redirect(w, r, "/userpage", http.StatusSeeOther)
-		return
+			http.Redirect(w, r, "/userpage", http.StatusSeeOther)
+			return
+		} else {
+			app.database.DeletePost(PostID)
+			http.Redirect(w, r, "/userpage", http.StatusSeeOther)
+			return
+		}
 	}
 }
 
@@ -541,12 +545,8 @@ func (app *application) editContent(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Method {
 	case http.MethodGet:
-		fmt.Println("editcontent GET")
 		r.ParseForm()
 		PostID := r.FormValue("PostID")
-		fmt.Println(PostID)
-		// Finds specific post by ID
-		//Deletes that specific post by ID
 		var posts []*models.PostData
 		posts, err = app.database.FindPostWithID(PostID)
 		if err != nil {
@@ -558,15 +558,6 @@ func (app *application) editContent(w http.ResponseWriter, r *http.Request) {
 			SessionData: session,
 			PostsData:   posts,
 		}
-		//DONT REALLY KNOW IF THREAD IS NECESSARY
-		// var threadPostID []string
-
-		// for _, element := range posts {
-		// 	if element.ParentID != "0" {
-		// 		threadPostID = append(threadPostID, "/thread?ID="+element.ParentID)
-		// 	} else {
-		// 		threadPostID = append(threadPostID, "/thread?ID="+element.PostID)
-		// 	}
 
 		err = ts.Execute(w, data)
 
@@ -576,26 +567,12 @@ func (app *application) editContent(w http.ResponseWriter, r *http.Request) {
 
 	case http.MethodPost:
 
-		fmt.Println("methodpost")
-
 		PostID := r.FormValue("PostID")
 
-		fmt.Println("PostID", PostID)
-
-		//TODO
-		// Finds specific post by ID
-		//Updates that specific post
-		// Inserts new post
-		//Redirects user back to main page
-
-		//PostID := uuid.NewV4().String()
-		//UserID := session.UserID
 		PostTitle := r.FormValue("inputPostTitle")
 		PostContent := r.FormValue("inputPostContent")
 		//creationTime := time.Now().Format("2006-01-02 15:04:05")
-		//TagsSelected := r.Form["tagsClearThreshold[]"]
 		parentPost := r.FormValue("ParentID")
-		//PostImage := ""
 		redirectPath := "./"
 
 		//var IsComment = true
@@ -609,14 +586,6 @@ func (app *application) editContent(w http.ResponseWriter, r *http.Request) {
 
 		// Redirect the user to the relevant page for the post.
 		app.database.UpdatePost(PostID, PostTitle, PostContent)
-
-		// if IsComment {
-		// 	app.sendNotification(parentPost, UserID)
-		// }
-
-		//TO DO
-		//get the original post UserID from a query of the posts ParentID
-		//app.database.AddNotification(PostID, UserID, 0)
 
 		http.Redirect(w, r, redirectPath, http.StatusFound)
 

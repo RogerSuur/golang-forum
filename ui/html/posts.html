@@ -17,6 +17,11 @@
                         <!-- <form action="editContent" method="post">
                             <input type="hidden" name="PostID" value="{{.PostID}}">
                         </form> -->
+                        <form action="/delete?PostID={{.PostID}}" method="POST">
+
+  <input type="hidden" name="PostID" value="{{.PostID}}">
+                            <button type="submit" class="deletePost-button" id="deletePost-button"><i class="iconoir-delete-circle"></i>
+                            </form>
                         <a href="/edit?PostID={{.PostID}}">
                             <button type="submit" class="edit-button" id="edit-button"><i class="iconoir-edit"></i>
                         </a>

@@ -316,3 +316,17 @@ func (m *DBModel) UpdatePost(PostID, PostTitle, PostContent string) {
 	}
 
 }
+
+func (m *DBModel) DeletePost(PostID string) {
+
+	stmt := `DELETE FROM Posts WHERE Posts.PostID = ?;
+	DELETE FROM PostCatRelations WHERE PostCatRelations.PostID = ?;
+	DELETE FROM Likes WHERE Likes.PostID = ?;`
+	statement, err := m.DB.Prepare(stmt)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	statement.Exec(PostID)
+	fmt.Println("Deleted a post from DB")
+
+}

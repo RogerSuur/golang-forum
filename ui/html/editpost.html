@@ -9,6 +9,7 @@
                     <div class="login w-50 d-inline-block">
                         <div class="makePost mb-3">
                             {{range $PostIndex, $item := .PostsData}} 
+                            <input type="hidden" name="PostID" value="{{.PostID}}">
                             <label for="inputPostTitle" class="form-label">Title:</label>
                             <!-- <input type="hidden" name="postID" value="{{.PostTitle}}"> -->
                             <input type="text"  value="{{.PostTitle}}" name="inputPostTitle" class="form-control form-control-lg"
@@ -21,20 +22,7 @@
                                 required placeholder="Type your recipe here" style="height: 300px">{{.PostContent}}</textarea>
                         </div>
                         {{end}}
-                        <div class="row mb-3 g-3 d-flex justify-content-center">
-                            <div class="col-md-4">
-                                <label for="validationTagsThreshold" class="form-label">Select tags</label>
-                                <select class="form-select" id="validationTagsThreshold" name="tagsClearThreshold[]"
-                                    multiple data-allow-clear="true" data-suggestions-threshold="0">
-                                    <option selected disabled hidden value="">Choose a tag...</option>
-                                    <option value="Healthy" name="tagOptions" value="Healthy">Healthy</option>
-                                    <option value="Vegan" name="tagOptions" value="Vegan">Vegan</option>
-                                    <option value="Cheap" name="tagOptions" value="Cheap">Cheap</option>
-                                    <option value="Easy" name="tagOptions" value="Easy">Easy</option>
-                                </select>
-                                <div class="invalid-feedback">Please select a valid tag.</div>
-                            </div>
-                        </div>
+                        
                         <br>
 
                         <br>
