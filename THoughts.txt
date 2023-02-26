@@ -1,14 +1,7 @@
-    Why it doesnt delete postID related likes and categories?
-
-    Make it delete all the comments related to that post also
-
-
 If PostAuthorID = SesstionData.UserID
 DOnt show likes or dislike btn, nor comment
 
 Position the edit button better
-
-Add a delete btn
 
 Add a editing date on post 
 
