@@ -48,7 +48,14 @@
                 </div>
                 <button type="submit" class="d-flex mx-auto btn-sm btn-outline-secondary text-dark">Filter Posts</button>
             </form>
+            
+                <div class=" d-flex justify-content-center">
+                    <a href="/newpost">
+                        <button type="submit" class="mx-auto btn-sm btn-outline-secondary text-dark" id="plus"><i class="iconoir-plus"></i>NewPost</button>
+                    </a>
+                </div>
 
+            
             {{template "postDisplay" .}}
 
         </div>
