@@ -16,6 +16,7 @@ type PostData struct {
 	PostTitle   string
 	PostContent string
 	PostImage   string
+	EditPost    string
 	PostLiked   sql.NullInt32
 	Positive    sql.NullInt32
 	Negative    sql.NullInt32

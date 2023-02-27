@@ -95,6 +95,7 @@ func createTable(db *sql.DB) {
 		"PostContent"	TEXT,
 		"PostImage"	TEXT,
 		"PostTime"	TIMESTAMP,
+		"EditPost" TEXT,
 		PRIMARY KEY("PostID"),
 		FOREIGN KEY("UserID") REFERENCES "Users"("UserID")
 	);` // sql Statement for create table

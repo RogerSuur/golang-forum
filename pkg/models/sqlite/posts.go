@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"time"
 
 	"forum-advanced-features/pkg/models"
 )
@@ -17,13 +18,13 @@ func (m *DBModel) Insert(PostID, ParentID, UserID, PostTitle, PostContent, PostI
 		}
 	}
 
-	stmt := `INSERT INTO Posts (PostID, ParentID, UserID, PostTitle, PostContent, PostImage, PostTime)
-	VALUES(?,?,?,?,?,?,?)`
+	stmt := `INSERT INTO Posts (PostID, ParentID, UserID, PostTitle, PostContent, PostImage, PostTime, EditPost)
+	VALUES(?,?,?,?,?,?,?, ?)`
 	statement, err := m.DB.Prepare(stmt)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	statement.Exec(PostID, ParentID, UserID, PostTitle, PostContent, PostImage, PostTime)
+	statement.Exec(PostID, ParentID, UserID, PostTitle, PostContent, PostImage, PostTime, "")
 	fmt.Printf("Inserted post '%v' into database table Posts\n", PostTitle)
 
 	for _, cat := range TagsSelected {
@@ -86,7 +87,7 @@ func (m *DBModel) Latest(session *models.SessionData, TagsSelected []string) ([]
 		// Create a pointer to a new zeroed PostData struct.
 		s := &models.PostData{}
 
-		err := rows.Scan(&s.PostID, &s.ParentID, &s.UserID, &s.PostTitle, &s.PostContent, &s.PostImage, &s.PostTime, &s.Parents, &s.UserName, &s.PostLiked, &s.Positive, &s.Negative)
+		err := rows.Scan(&s.PostID, &s.ParentID, &s.UserID, &s.PostTitle, &s.PostContent, &s.PostImage, &s.PostTime, &s.EditPost, &s.Parents, &s.UserName, &s.PostLiked, &s.Positive, &s.Negative)
 		if err != nil {
 			fmt.Println("ERR: ", err)
 		}
@@ -135,7 +136,7 @@ func (m *DBModel) UserPosts(session *models.SessionData) (userPosts []*models.Po
 	for rows.Next() {
 		s := &models.PostData{}
 
-		err = rows.Scan(&s.PostID, &s.ParentID, &s.UserID, &s.PostTitle, &s.PostContent, &s.PostImage, &s.PostTime, &s.UserName, &s.PostLiked, &s.Positive, &s.Negative, &s.Parents)
+		err = rows.Scan(&s.PostID, &s.ParentID, &s.UserID, &s.PostTitle, &s.PostContent, &s.PostImage, &s.PostTime, &s.EditPost, &s.UserName, &s.PostLiked, &s.Positive, &s.Negative, &s.Parents)
 		if err != nil {
 			return nil, err
 		}
@@ -163,7 +164,7 @@ func (m *DBModel) FindPostWithID(PostID string) (userPosts []*models.PostData, e
 	for rows.Next() {
 		s := &models.PostData{}
 
-		err = rows.Scan(&s.PostID, &s.ParentID, &s.UserID, &s.PostTitle, &s.PostContent, &s.PostImage, &s.PostTime)
+		err = rows.Scan(&s.PostID, &s.ParentID, &s.UserID, &s.PostTitle, &s.PostContent, &s.PostImage, &s.PostTime, &s.EditPost)
 		if err != nil {
 			return nil, err
 		}
@@ -214,7 +215,7 @@ func (m *DBModel) UserLikes(session *models.SessionData) (userPosts []*models.Po
 	for rows.Next() {
 		s := &models.PostData{}
 
-		err = rows.Scan(&s.PostID, &s.ParentID, &s.UserID, &s.PostTitle, &s.PostContent, &s.PostImage, &s.PostTime, &s.UserName, &s.PostLiked, &s.Positive, &s.Negative, &s.Parents)
+		err = rows.Scan(&s.PostID, &s.ParentID, &s.UserID, &s.PostTitle, &s.PostContent, &s.PostImage, &s.PostTime, &s.EditPost, &s.UserName, &s.PostLiked, &s.Positive, &s.Negative, &s.Parents)
 		if err != nil {
 			return nil, err
 		}
@@ -265,7 +266,7 @@ func (m *DBModel) GetThread(session *models.SessionData, thread string) (threadP
 	for rows.Next() {
 		s := &models.PostData{}
 
-		err = rows.Scan(&s.PostID, &s.ParentID, &s.UserID, &s.PostTitle, &s.PostContent, &s.PostImage, &s.PostTime, &s.UserName, &s.PostLiked, &s.Positive, &s.Negative, &s.Parents)
+		err = rows.Scan(&s.PostID, &s.ParentID, &s.UserID, &s.PostTitle, &s.PostContent, &s.PostImage, &s.PostTime, &s.EditPost, &s.UserName, &s.PostLiked, &s.Positive, &s.Negative, &s.Parents)
 		if err != nil {
 			return nil, err
 		}
@@ -301,7 +302,7 @@ func (m *DBModel) UpdatePost(PostID, PostTitle, PostContent string) {
 
 	stmt, err := m.DB.Prepare(`
 		UPDATE Posts
-		SET PostTitle = ?, PostContent = ?
+		SET PostTitle = ?, PostContent = ?, EditPost = ?
 		WHERE PostID = ?
 	`)
 	if err != nil {
@@ -309,8 +310,9 @@ func (m *DBModel) UpdatePost(PostID, PostTitle, PostContent string) {
 	}
 	defer stmt.Close()
 
+	t := time.Now().Format("2006-01-02 15:04:05")
 	// Execute the statement with the provided parameters
-	_, err = stmt.Exec(PostTitle, PostContent, PostID)
+	_, err = stmt.Exec(PostTitle, PostContent, t, PostID)
 	if err != nil {
 		log.Fatal(err.Error())
 	}

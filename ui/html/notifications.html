@@ -38,9 +38,11 @@
 </div>
 </div>
     {{end}}
+    {{if .NotificationData}}
     <form action="/delete" method="POST">
         <div class="d-flex justify-content-center">
             <button class="btn btn-secondary text-dark " type="submit">Mark as Read</button>
         </div>
     </form>
+    {{end}}
 {{end}}

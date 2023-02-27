@@ -1,14 +1,3 @@
-If PostAuthorID = SesstionData.UserID
-DOnt show likes or dislike btn, nor comment
-
-Position the edit button better
-
-Add a editing date on post 
-
-
-
-Remove mark as read btn if there are no notification
-
 Position New Post btn also somewhere to the post area
 
 
@@ -20,7 +9,19 @@ Position New Post btn also somewhere to the post area
 
 
 
+Position the edit button better
 
+Remove mark as read btn if there are no notification
+
+
+Pmst et sa ei saaks ise oma poste likeda
+If PostAuthorID = SesstionData.UserID
+DOnt show likes or dislike btn, nor comment
+
+
+
+
+Add a editing date on post 
 
 Make EDIT post btn + handler
 + that takes you to the new post form 
