@@ -1,3 +1,7 @@
+TODO:
+notifications red alert
+delete confirmation
+
 go run .
 
 Username: Roger
