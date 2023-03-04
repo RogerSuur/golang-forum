@@ -298,11 +298,11 @@ func (m *DBModel) IsComment(PostParent string) bool {
 	return postAuthorID != ""
 }
 
-func (m *DBModel) UpdatePost(PostID, PostTitle, PostContent string) {
+func (m *DBModel) UpdatePost(PostID, PostTitle, PostContent, PostImage string) {
 
 	stmt, err := m.DB.Prepare(`
 		UPDATE Posts
-		SET PostTitle = ?, PostContent = ?, EditPost = ?
+		SET PostTitle = ?, PostContent = ?, EditPost = ?, PostImage = ?
 		WHERE PostID = ?
 	`)
 	if err != nil {
@@ -312,7 +312,7 @@ func (m *DBModel) UpdatePost(PostID, PostTitle, PostContent string) {
 
 	t := time.Now().Format("2006-01-02 15:04:05")
 	// Execute the statement with the provided parameters
-	_, err = stmt.Exec(PostTitle, PostContent, t, PostID)
+	_, err = stmt.Exec(PostTitle, PostContent, t, PostImage, PostID)
 	if err != nil {
 		log.Fatal(err.Error())
 	}

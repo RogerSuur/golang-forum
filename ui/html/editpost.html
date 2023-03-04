@@ -21,6 +21,18 @@
                             <textarea name="inputPostContent" class="form-control text-left" id="inputPostContent"
                                 required placeholder="Type your recipe here" style="height: 300px">{{.PostContent}}</textarea>
                         </div>
+                        {{if .PostImage}}
+                        <div class="makePost mb-3">
+                            <img src=".{{.PostImage}}" class="img-fluid" alt="">
+                        </div>
+                        {{end}}
+                        <div class="mb-3">
+                            <div class="textwhite text-light">
+                                Add or replace image. Max size 20 mb .jpg .png and .gif files
+                            </div> 
+                            <label for="inputImage" class="form-label"></label>
+                            <input class="form-control" type="file" name="inputImage" id="inputImage">
+                        </div>
                         {{end}}
                         
                         <br>

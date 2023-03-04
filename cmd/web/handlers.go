@@ -577,6 +577,53 @@ func (app *application) editContent(w http.ResponseWriter, r *http.Request) {
 		parentPost := r.FormValue("ParentID")
 		redirectPath := "./"
 
+		var PostImage string
+		postFile, fileHandler, err := r.FormFile("inputImage")
+
+		// 20 << 20 specifies a maximum upload of 20 MB files
+		if err := r.ParseMultipartForm(20 << 20); err != nil {
+			fmt.Println("Error: user tried to upload a file over 20mb")
+			http.Error(w, "files over 20mb in size are not allowed", http.StatusRequestEntityTooLarge)
+			return
+		}
+
+		if err == nil {
+
+			defer postFile.Close()
+
+			contentType := fileHandler.Header.Get("Content-Type")
+			if contentType != "image/jpeg" && contentType != "image/png" && contentType != "image/gif" {
+				fmt.Println("Error: user tried to upload a wrong file type:", contentType)
+				http.Error(w, "file type not allowed", http.StatusUnsupportedMediaType)
+				return
+			}
+
+			fmt.Printf("User Attached a File '%+v' with File Size %+v and Content Type %+v\n", fileHandler.Filename, fileHandler.Size, contentType)
+
+			imgPath := filepath.Join(".", "ui/static/forum-images")
+			err = os.MkdirAll(imgPath, os.ModePerm)
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			// Create a temporary file within our temp-images directory that follows the naming pattern
+			tempFile, err := ioutil.TempFile(imgPath, "upload-*-"+fileHandler.Filename)
+			if err != nil {
+				fmt.Println(err)
+			}
+			defer tempFile.Close()
+
+			// read all of the contents of our uploaded file into a byte array
+			fileBytes, err := ioutil.ReadAll(postFile)
+			if err != nil {
+				fmt.Println(err)
+			}
+			// write this byte array to our temporary file
+			tempFile.Write(fileBytes)
+			PostImage = tempFile.Name()[2:]
+
+		}
+
 		//var IsComment = true
 
 		if parentPost == "0" {
@@ -585,9 +632,23 @@ func (app *application) editContent(w http.ResponseWriter, r *http.Request) {
 		} else {
 			redirectPath = "./thread?ID=" + parentPost
 		}
+		fmt.Println("PostImage", PostImage)
+		fmt.Println("PostID", PostID)
+
+		if PostImage == "" {
+			stmt := `SELECT PostImage FROM Posts WHERE PostID = ?;`
+			row := app.database.DB.QueryRow(stmt, PostID)
+			err := row.Scan(&PostImage)
+			if err != nil {
+				app.serveError(w, err)
+				return
+			}
+		}
+
+		fmt.Println("PostImage", PostImage)
 
 		// Redirect the user to the relevant page for the post.
-		app.database.UpdatePost(PostID, PostTitle, PostContent)
+		app.database.UpdatePost(PostID, PostTitle, PostContent, PostImage)
 
 		http.Redirect(w, r, redirectPath, http.StatusFound)
 
