@@ -79,6 +79,26 @@
         import Tags from "https://cdn.jsdelivr.net/gh/lekoala/bootstrap5-tags@master/tags.js";
         Tags.init("select");
       </script>
+
+      <script>
+        const deletePostButton = document.getElementById('deletePost-button');
+    const deletePostModal = document.getElementById('delete-post-modal');
+    const cancelButton = document.getElementById('cancel-button');
+    const yesButton = document.getElementById('yes-button');
+
+    deletePostButton.addEventListener('click', () => {
+        console.log("deletePostButton")
+      deletePostModal.style.display = 'block';
+    });
+
+    cancelButton.addEventListener('click', () => {
+      deletePostModal.style.display = 'none';
+    });
+
+    yesButton.addEventListener('click', () => {
+      deletePostModal.style.display = 'none';
+    });
+      </script>
 </body>
 </html>
 {{end}}
