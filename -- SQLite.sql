@@ -23,6 +23,6 @@
 -- LEFT JOIN Posts ON Notifications.PostID = Posts.PostID
 -- WHERE Notifications.UserID = "7bcc27c3-4a95-4c1a-b72f-1db0c93978f7";
 
-DELETE FROM Posts WHERE Posts.PostID OR Posts.ParentID= 'cb3ab66d-e91c-43ca-b383-53a15098081e';
-DELETE FROM PostCatRelations WHERE PostCatRelations.PostID = 'cb3ab66d-e91c-43ca-b383-53a15098081e';
-DELETE FROM Likes WHERE Likes.PostID = 'cb3ab66d-e91c-43ca-b383-53a15098081e';
+-- DELETE FROM Posts WHERE Posts.PostID OR Posts.ParentID= 'cb3ab66d-e91c-43ca-b383-53a15098081e';
+-- DELETE FROM PostCatRelations WHERE PostCatRelations.PostID = 'cb3ab66d-e91c-43ca-b383-53a15098081e';
+-- DELETE FROM Likes WHERE Likes.PostID = 'cb3ab66d-e91c-43ca-b383-53a15098081e';
