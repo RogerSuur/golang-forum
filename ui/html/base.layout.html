@@ -81,23 +81,35 @@
       </script>
 
       <script>
-        const deletePostButton = document.getElementById('deletePost-button');
-    const deletePostModal = document.getElementById('delete-post-modal');
-    const cancelButton = document.getElementById('cancel-button');
-    const yesButton = document.getElementById('yes-button');
+           const deletePostButtons = document.querySelectorAll('.deletePost-button');
 
-    deletePostButton.addEventListener('click', () => {
-        console.log("deletePostButton")
-      deletePostModal.style.display = 'block';
-    });
+deletePostButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    const postId = button.dataset.postId;
+    const deletePostModal = document.getElementById(`delete-post-modal-${postId}`);
+    deletePostModal.style.display = 'block';
+  });
+});
 
-    cancelButton.addEventListener('click', () => {
-      deletePostModal.style.display = 'none';
-    });
+const cancelButtons = document.querySelectorAll('.modal-button.cancel');
+const yesButtons = document.querySelectorAll('.modal-button.yes');
 
-    yesButton.addEventListener('click', () => {
-      deletePostModal.style.display = 'none';
-    });
+cancelButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    const modal = button.closest('.modal');
+    modal.style.display = 'none';
+  });
+});
+
+yesButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    const modal = button.closest('.modal');
+    const postId = modal.dataset.postId;
+    // add code to delete the post here
+    modal.style.display = 'none';
+  });
+});
+
       </script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 TODO:
 notifications red alert
 delete confirmation
+BUG: Works only on one modal, if more posts crashes because of multiple id
 
 go run .
 

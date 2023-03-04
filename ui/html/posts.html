@@ -23,15 +23,16 @@
                              <!-- <button type="hidden" class="deletePost-button" id="deletePost-button"></button> -->
                         </form>
                         
-                        <button type="submit" class="deletePost-button" id="deletePost-button"><i class="iconoir-delete-circle"></i></button>
-                        <div id="delete-post-modal" class="modal">
+                        <!-- <button type="submit" class="deletePost-button" id="deletePost-button"><i class="iconoir-delete-circle"></i></button> -->
+                        <button type="submit" class="deletePost-button" data-post-id="{{$PostIndex}}"><i class="iconoir-delete-circle"></i></button>
+                        <div id="delete-post-modal-{{$PostIndex}}" class="modal">
                             <div class="modal-content">
                               <h2>Are you sure you want to delete this post?</h2>
                               <div class="modal-buttons">
-                                <button id="cancel-button" class="modal-button">Cancel</button>
+                                <button id="cancel-button-{{$PostIndex}}" class="cancel-button">Cancel</button>
                                 <form action="/delete?PostID={{.PostID}}" method="POST">
                                     <input type="hidden" name="PostID" value="{{.PostID}}">
-                                    <button type="submit" id="yes-button" class="modal-button">Yes</button>
+                                    <button type="submit" id="yes-button-{{$PostIndex}}" class="modal-button">Yes</button>
                                 </form>
                               </div>
                             </div>
