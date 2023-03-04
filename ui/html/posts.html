@@ -36,9 +36,11 @@
                         <div class="postContent">
                             {{.PostContent}}
                         </div>
+                        {{if .PostImage}}
                         <div class="imagepost">
                             <img src=".{{.PostImage}}" class= "imagepost" alt="">
                         </div>
+                        {{end}}
                     </div>
 
                     {{if not $.SessionData.UserID}}
