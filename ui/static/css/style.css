@@ -266,7 +266,7 @@ a.comment-link {
   margin-top: 20px;
 }
 
-.modal-button {
+.modal-button.yes {
   background-color: #4CAF50; /* Green */
   color: white;
   padding: 8px 16px;
@@ -279,7 +279,7 @@ a.comment-link {
   background-color: #3e8e41;
 }
 
-.cancel-button {
+.modal-button.cancel {
   background-color: #f44336; /* Red */
   color: white;
   padding: 8px 16px;

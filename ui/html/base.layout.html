@@ -31,6 +31,9 @@
                     {{if .SessionData.UserID}}
                     <li class="nav-item">
                         <p>{{ .SessionData.UserName}}</p>
+                        {{ if .NotificationData.UserID}}
+                        <p>{{ .NotificationData.UserID}}</p>
+                        {{end}}
                         <a class="nav-link" href="/logout">Logout</a>
                     </li>
                     <li class="nav-item">
@@ -104,8 +107,6 @@ cancelButtons.forEach((button) => {
 yesButtons.forEach((button) => {
   button.addEventListener('click', () => {
     const modal = button.closest('.modal');
-    const postId = modal.dataset.postId;
-    // add code to delete the post here
     modal.style.display = 'none';
   });
 });

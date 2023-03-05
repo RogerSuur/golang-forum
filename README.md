@@ -1,7 +1,6 @@
 TODO:
+write a notification query at home page handler that gets the amount of notifications for one user.
 notifications red alert
-delete confirmation
-BUG: Works only on one modal, if more posts crashes because of multiple id
 
 go run .
 
