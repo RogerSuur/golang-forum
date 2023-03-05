@@ -28,3 +28,5 @@
 -- DELETE FROM Posts WHERE Posts.PostID OR Posts.ParentID= 'cb3ab66d-e91c-43ca-b383-53a15098081e';
 -- DELETE FROM PostCatRelations WHERE PostCatRelations.PostID = 'cb3ab66d-e91c-43ca-b383-53a15098081e';
 -- DELETE FROM Likes WHERE Likes.PostID = 'cb3ab66d-e91c-43ca-b383-53a15098081e';
+
+SELECT COUNT(*) FROM Notifications WHERE UserID = '2c5157ac-dacf-445e-ad08-eb1a31ff757d';
