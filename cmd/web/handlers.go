@@ -34,7 +34,7 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	}
 
 	session := app.database.GetUser(w, r)
-	notifications, err := app.database.GetUserNotifications(session)
+	notificationCount, err := app.database.GetNotificationCOunt(session)
 	if err != nil {
 		app.serveError(w, err)
 		return
@@ -53,15 +53,15 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := &templateData{
-		PostsData:        posts,
-		SessionData:      session,
-		NotificationData: notifications,
-		ThreadData:       threadPostID,
-		IsThread:         false,
+		PostsData:         posts,
+		SessionData:       session,
+		ThreadData:        threadPostID,
+		IsThread:          false,
+		NotificationCount: notificationCount,
 	}
 
 	fmt.Println("SessionData", session.UserID)
-	fmt.Println("Notificationdata", notifications)
+	fmt.Println("Notificationdata", notificationCount)
 
 	files := []string{
 		"./ui/html/home.html",

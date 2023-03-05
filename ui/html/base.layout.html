@@ -31,8 +31,8 @@
                     {{if .SessionData.UserID}}
                     <li class="nav-item">
                         <p>{{ .SessionData.UserName}}</p>
-                        {{ if .NotificationData.UserID}}
-                        <p>{{ .NotificationData.UserID}}</p>
+                        {{ if .NotificationCount}}
+                        <p>{{ .NotificationCount}}</p>
                         {{end}}
                         <a class="nav-link" href="/logout">Logout</a>
                     </li>

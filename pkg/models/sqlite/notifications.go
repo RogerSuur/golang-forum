@@ -70,6 +70,34 @@ WHERE Notifications.UserID = ?`
 	return notifications, nil
 }
 
+//Get all notifications to that user
+func (m *DBModel) GetNotificationCOunt(session *models.SessionData) (count string, err error) {
+	fmt.Println("User notification count")
+	stmt := `SELECT COUNT(*) FROM Notifications WHERE UserID = ?`
+
+	rows, err := m.DB.Query(stmt, session.UserID)
+	if err != nil {
+		return "error counting notifications from user", err
+	}
+	defer rows.Close()
+
+	var s string
+	for rows.Next() {
+
+		err = rows.Scan(&s)
+		if err != nil {
+			return "error counting notifications from user", err
+		}
+
+	}
+
+	if err = rows.Err(); err != nil {
+		return "error counting notifications from user", err
+	}
+
+	return s, nil
+}
+
 // This will delete notifications from the database
 func (m *DBModel) DeleteNotification(UserID string) {
 	stmt := `DELETE FROM Notifications WHERE Notifications.UserID = ?`
