@@ -283,7 +283,6 @@ func (app *application) newpost(w http.ResponseWriter, r *http.Request) {
 		}
 
 		var IsComment = true
-		fmt.Println("parentPost:", parentPost)
 		if parentPost == "0" {
 			parentPost = PostID
 			IsComment = false

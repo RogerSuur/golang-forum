@@ -1,7 +1,5 @@
 TODO:
-write a notification query at home page handler that gets the amount of notifications for one user.
-notifications red alert
-
+Style the notification bell so it isnot fucking white
 go run .
 
 BUGS:

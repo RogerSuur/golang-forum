@@ -31,11 +31,31 @@
                     {{if .SessionData.UserID}}
                     <li class="nav-item">
                         <p>{{ .SessionData.UserName}}</p>
-                        {{ if .NotificationCount}}
-                        <p>{{ .NotificationCount}}</p>
-                        {{end}}
-                        <a class="nav-link" href="/logout">Logout</a>
-                    </li>
+
+                        <!-- WORKS WELL -->
+                        <!-- {{ if ne .NotificationCount "0" }}
+            <a class="nav-link" href="/notifications">
+                <i class="iconoir-bell-notification nav-icon"></i>
+                <span class="badge rounded-pill bg-danger">{{ .NotificationCount }}</span>
+            </a>
+            {{ end }} -->
+
+            
+            <!-- SECOND TRY -->
+            {{ if ne .NotificationCount "0" }}
+            <form action="/userpage" method="POST" class="nav-link">
+    <input type="hidden" name="userpage" value="Notifications">
+    <button type="submit" class="nav-link">
+        <i class="iconoir-bell-notification nav-icon"></i>
+        <span class="badge rounded-pill bg-danger">{{ .NotificationCount }}</span>
+    </button>
+</form>
+{{end}}
+
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+        </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/userpage">Userpage</a>
                     </li>
