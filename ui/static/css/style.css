@@ -37,6 +37,11 @@ p {
     color: white;
 }
 
+.nav-link button i {
+    color: #ffffff;
+  }
+  
+
 .second-box {
     background-color: rgb(166, 220, 253);
     height: 300px;
@@ -144,6 +149,9 @@ body {
   background-color: white;
 }
 
+.postTime {
+    margin-right: 1em;
+}
 
 .postHeader {
     padding: 10px;

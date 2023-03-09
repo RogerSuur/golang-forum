@@ -18,7 +18,6 @@ import (
 )
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("home handler")
 	if r.URL.Path != "/" {
 		app.notFound(w)
 		return
@@ -59,9 +58,6 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		IsThread:          false,
 		NotificationCount: notificationCount,
 	}
-
-	fmt.Println("SessionData", session.UserID)
-	fmt.Println("Notificationdata", notificationCount)
 
 	files := []string{
 		"./ui/html/home.html",
@@ -226,7 +222,6 @@ func (app *application) login(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) newpost(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("newpost handler")
 
 	if !app.database.IsLoggedIn(r) {
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
@@ -261,7 +256,6 @@ func (app *application) newpost(w http.ResponseWriter, r *http.Request) {
 		r.Body = http.MaxBytesReader(w, r.Body, 20<<20+512)
 
 		PostID := uuid.NewV4().String()
-		fmt.Println("creating new PostID ", PostID, "with len", len(PostID))
 		UserID := session.UserID
 		PostTitle := r.FormValue("inputPostTitle")
 		PostContent := r.FormValue("inputPostContent")
@@ -335,17 +329,9 @@ func (app *application) newpost(w http.ResponseWriter, r *http.Request) {
 		// Redirect the user to the relevant page for the post.
 		app.database.Insert(PostID, parentPost, UserID, PostTitle, PostContent, PostImage, creationTime, TagsSelected)
 
-		//TODO
-		//WRITE A QUERY TO DETERMINE IF IT IS A COMMENT OR A POST
-		// if app.database.IsComment(parentPost) {
-		// 	app.sendNotification(parentPost)
-		// }
 		if IsComment {
 			app.sendNotification(parentPost, UserID)
 		}
-		//TO DO
-		//get the original post UserID from a query of the posts ParentID
-		//app.database.AddNotification(PostID, UserID, 0)
 
 		http.Redirect(w, r, redirectPath, http.StatusFound)
 	}
@@ -353,16 +339,10 @@ func (app *application) newpost(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) sendNotification(parentPost string, commentAuthor string) {
 
-	//See userid mille leian on vale? aga miks...
-	// UserID := app.database.FindPostAuthor(parentPost)
-
-	fmt.Println("commentAuthor:", commentAuthor)
-
 	app.database.AddNotification(parentPost, commentAuthor, 0)
 }
 
 func (app *application) userpage(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("userpage handler")
 	if !app.database.IsLoggedIn(r) {
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
 	}
@@ -405,8 +385,6 @@ func (app *application) userpage(w http.ResponseWriter, r *http.Request) {
 			notifications, err = app.database.GetUserNotifications(session)
 
 		}
-
-		fmt.Println("handlers userPosts,", userPosts)
 		var threadPostID []string
 
 		for _, element := range posts {
@@ -439,7 +417,7 @@ func (app *application) userpage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) react(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("react handler")
+
 	if r.Method == http.MethodPost {
 		if err := r.ParseForm(); err != nil {
 			fmt.Println("Error while handling reactions", r.PostForm)
@@ -463,7 +441,7 @@ func (app *application) react(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) thread(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("thread handler")
+
 	files := []string{
 		"./ui/html/thread.html", // path relative to the root of the project cateory
 		"./ui/html/posts.html",
@@ -508,19 +486,16 @@ func (app *application) thread(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) deleteContent(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("delete content handler")
+
 	if r.Method == http.MethodPost {
 		if err := r.ParseForm(); err != nil {
 			fmt.Println("Error while handling reactions", r.PostForm)
 		}
 
 		PostID := r.FormValue("PostID")
-		fmt.Println(PostID)
-		fmt.Println("len PostID", len(PostID))
+
 		if PostID == "" {
 			session := app.database.GetUser(w, r)
-
-			fmt.Println("session.UserId", session.UserID)
 
 			app.database.DeleteNotification(session.UserID)
 
@@ -581,7 +556,7 @@ func (app *application) editContent(w http.ResponseWriter, r *http.Request) {
 
 		PostTitle := r.FormValue("inputPostTitle")
 		PostContent := r.FormValue("inputPostContent")
-		//creationTime := time.Now().Format("2006-01-02 15:04:05")
+
 		parentPost := r.FormValue("ParentID")
 		redirectPath := "./"
 
@@ -632,16 +607,12 @@ func (app *application) editContent(w http.ResponseWriter, r *http.Request) {
 
 		}
 
-		//var IsComment = true
-
 		if parentPost == "0" {
 			parentPost = PostID
 			//	IsComment = false
 		} else {
 			redirectPath = "./thread?ID=" + parentPost
 		}
-		fmt.Println("PostImage", PostImage)
-		fmt.Println("PostID", PostID)
 
 		if PostImage == "" {
 			stmt := `SELECT PostImage FROM Posts WHERE PostID = ?;`
@@ -652,9 +623,6 @@ func (app *application) editContent(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 		}
-
-		fmt.Println("PostImage", PostImage)
-
 		// Redirect the user to the relevant page for the post.
 		app.database.UpdatePost(PostID, PostTitle, PostContent, PostImage)
 

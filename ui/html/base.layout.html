@@ -32,23 +32,11 @@
                     <li class="nav-item">
                         <p>{{ .SessionData.UserName}}</p>
 
-                        <!-- WORKS WELL -->
-                        <!-- {{ if ne .NotificationCount "0" }}
-            <a class="nav-link" href="/notifications">
-                <i class="iconoir-bell-notification nav-icon"></i>
-                <span class="badge rounded-pill bg-danger">{{ .NotificationCount }}</span>
-            </a>
-            {{ end }} -->
-
-            
-            <!-- SECOND TRY -->
+                        
             {{ if ne .NotificationCount "0" }}
             <form action="/userpage" method="POST" class="nav-link">
     <input type="hidden" name="userpage" value="Notifications">
-    <!-- <button type="submit" class="nav-link">
-        <i class="iconoir-bell-notification nav-icon"></i>
-        <span class="badge rounded-pill bg-danger">{{ .NotificationCount }}</span>
-    </button> -->
+   
     <button type="submit" style="border: none; background-color: transparent; cursor: pointer;">
         <i class="iconoir-bell-notification nav-icon"></i>
         <span class="badge rounded-pill bg-danger">{{ .NotificationCount }}</span>
